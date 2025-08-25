@@ -69,7 +69,7 @@ const menuData = [
         price: 2.00,
         image: 'img/bebidas/malteada.jpg',
         category: 'bebidas',
-        recommended: false
+        recommended: true
     },
     {
         id: 'p9',

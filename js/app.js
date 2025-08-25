@@ -3,15 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const recommendedContainer = document.getElementById('recommended-cards');
     const categoriesContainer = document.getElementById('all-categories');
     
-    // Referencias al modal
     const modal = document.getElementById('imageModal');
     const fullImage = document.getElementById('fullImage');
     const closeBtn = document.getElementsByClassName('close-button')[0];
     
-    // --- Función para generar una tarjeta de producto ---
+    // Función para generar una tarjeta de producto
     const generateProductCard = (product) => {
-        const whatsappNumber = '573186789977';
-        const message = encodeURIComponent(`Hola, me gustaría pedir: ${product.name}`);
+        const whatsappNumber = '573123456789';
+        const message = encodeURIComponent(`Hola, me gustaría ordenar: ${product.name}`);
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
 
         return `
@@ -29,35 +28,40 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    // --- 1. Generar la sección de productos recomendados ---
+    // 1. Generar la sección de productos recomendados (sin cambios)
     const recommendedProducts = menuData.filter(product => product.recommended);
     recommendedProducts.forEach(product => {
         recommendedContainer.innerHTML += generateProductCard(product);
     });
 
-    // --- 2. Agrupar productos por categoría y generar secciones ---
+    // 2. Agrupar productos por categoría y generar secciones expandibles
     const categories = [...new Set(menuData.map(product => product.category))];
     
     categories.forEach(category => {
-        const categorySection = document.createElement('div');
+        const categorySection = document.createElement('section');
         categorySection.className = 'menu-category-section';
-        categorySection.innerHTML = `<h3 class="category-title">${category.charAt(0).toUpperCase() + category.slice(1)}</h3>`;
+
+        const categoryTitleBtn = document.createElement('h3');
+        categoryTitleBtn.className = 'category-title collapsible-btn';
+        categoryTitleBtn.innerHTML = `
+            ${category.charAt(0).toUpperCase() + category.slice(1)} <span class="arrow-icon">▼</span>
+        `;
         
         const productsGrid = document.createElement('div');
-        productsGrid.className = 'product-grid';
+        productsGrid.className = 'product-grid collapsible-content';
         
         const productsInCategory = menuData.filter(product => product.category === category);
         productsInCategory.forEach(product => {
             productsGrid.innerHTML += generateProductCard(product);
         });
         
+        categorySection.appendChild(categoryTitleBtn);
         categorySection.appendChild(productsGrid);
         categoriesContainer.appendChild(categorySection);
     });
 
-    // --- 3. Agregar funcionalidad del Modal ---
+    // 3. Añadir la funcionalidad del modal
     const images = document.querySelectorAll('.modal-trigger');
-
     images.forEach(image => {
         image.addEventListener('click', function() {
             modal.style.display = "block";
@@ -69,10 +73,28 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = "none";
     });
 
-    // Opcional: Cerrar el modal haciendo clic fuera de la imagen
     window.addEventListener('click', function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
+    });
+
+    // --- NUEVA FUNCIONALIDAD: Categorías expandibles ---
+    const collapsibleButtons = document.querySelectorAll('.collapsible-btn');
+
+    collapsibleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            const arrow = this.querySelector('.arrow-icon');
+            
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                arrow.style.transform = 'rotate(-90deg)';
+            }
+        });
     });
 });
