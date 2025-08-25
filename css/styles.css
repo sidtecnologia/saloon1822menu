@@ -1,0 +1,238 @@
+/* Estilos Generales y Reseteo */
+:root {
+    --primary-color: #ff5722;
+    --secondary-color: #333;
+    --background-color: #f9f9f9;
+    --card-background: #fff;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    color: var(--secondary-color);
+}
+
+/* Encabezado */
+.header-menu {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: var(--card-background);
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.5rem;
+}
+
+.logo {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Contenedor Principal del Menú */
+.menu-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Sección de Categorías */
+.menu-section {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.title-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.category-title {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
+    padding-bottom: 0.25rem;
+    margin-top: 2rem;
+}
+
+/* Grid de Productos - Adaptado */
+.product-grid {
+    display: grid;
+    /* Por defecto, una columna en móviles */
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+/* Tarjeta de Producto - Adaptado */
+.product-card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-name {
+    font-size: 1.1rem; /* Reducimos el tamaño de la fuente */
+    margin: 0 0 0.5rem 0;
+}
+
+.product-description {
+    font-size: 0.85rem; /* Reducimos el tamaño de la fuente */
+    color: #666;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.product-price {
+    font-size: 1.1rem; /* Reducimos el tamaño de la fuente */
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0 0 1rem 0;
+}
+
+/* Botón de Pedido */
+.order-button {
+    display: block;
+    width: 90%;
+    padding: 0.75rem;
+    background-color: #25D366;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease;
+}
+
+.order-button:hover {
+    background-color: #128C7E;
+}
+
+/* Pie de página */
+.footer-menu {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    background-color: var(--card-background);
+    border-top: 1px solid #eee;
+}
+
+/* --- Media Queries para hacer el diseño responsive --- */
+
+/* Tabletas y pantallas medianas (600px - 899px) */
+@media (min-width: 600px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+    .product-image {
+        height: 180px;
+    }
+}
+
+/* Escritorio y pantallas grandes (900px o más) */
+@media (min-width: 900px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+    .product-image {
+        height: 180px;
+    }
+    .product-name {
+        font-size: 1.25rem;
+    }
+    .product-description {
+        font-size: 0.9rem;
+    }
+    .product-price {
+        font-size: 1.25rem;
+    }
+}
+
+/* --- Estilos para el Modal de Imagen --- */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Fijo para que no se mueva con el scroll */
+    z-index: 10; /* Para que esté sobre otros elementos */
+    padding-top: 60px; /* Espacio desde la parte superior */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    overflow: auto; /* Permite scroll si la imagen es muy grande */
+    background-color: rgba(0,0,0,0.9); /* Fondo negro semi-transparente */
+}
+
+/* Contenido del modal (la imagen) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 700px;
+}
+
+/* Botón de cierre */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Animación de entrada para la imagen */
+@keyframes zoom {
+    from {transform:scale(0.5)} 
+    to {transform:scale(1)}
+}
+
+.modal-content {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+/* Media query para pantallas más pequeñas */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
