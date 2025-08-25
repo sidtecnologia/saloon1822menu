@@ -1,4 +1,4 @@
-/* Estilos Generales y Reseteo */
+
 :root {
     --primary-color: #ff5722;
     --secondary-color: #333;
@@ -9,7 +9,7 @@
 }
 
 body {
-    font-family: arial, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: candara, arial, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--background-color);
     margin: 0;
     padding: 0;
