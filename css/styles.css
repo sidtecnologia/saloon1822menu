@@ -26,10 +26,11 @@ body {
 }
 
 .logo {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--primary-color);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     font-family: candara, sans-serif;
+
 
 }
 /* Contenedor Principal del Menú */
@@ -443,4 +444,44 @@ body {
     display: flex;
     justify-content: center;
     margin-top: auto; /* Empuja el botón hacia abajo */
+}
+
+.page-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #ffffff; /* Fondo blanco para el contenido */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+}
+
+.header-menu {
+    text-align: center;
+    padding: 4rem 1rem;
+    background-image: url('../img/logo.jpg'); /* Reemplaza con la ruta de tu imagen */
+    background-size: cover;
+    background-position: center;
+    color: white; /* Color de texto blanco para contrastar */
+    border-bottom: none;
+    margin-bottom: 0;
+    position: relative; /* Es necesario para posicionar el overlay */
+    overflow: hidden; /* Evita que el overlay sobresalga si el header tiene bordes redondeados */
+}
+
+/* El overlay oscuro */
+.header-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Capa negra con 80% de opacidad */
+    z-index: 1; /* Coloca la capa sobre la imagen de fondo */
+}
+
+/* Ajustes para el texto dentro del header */
+.header-menu h1, .header-menu p {
+    position: relative;
+    z-index: 2; /* Coloca el texto sobre el overlay */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Sombra para mayor visibilidad */
 }
