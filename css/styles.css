@@ -249,12 +249,12 @@ body {
 
 .modal-content {
     animation-name: zoom;
-    animation-duration: 0.6s;
+    animation-duration: 0.2s;
 }
 
 @media only screen and (max-width: 700px){
     .modal-content {
-        width: 100%;
+        width: 80%;
     }
 }
 
@@ -552,6 +552,8 @@ body {
 
 /* Nuevo contenedor para la información en el modal de imagen */
 #image-modal-caption {
+    width: 72.3%;
+    margin-left: 38px;
     margin-bottom: 4rem;
     background-color: rgba(255, 255, 255, 0.95);
     color: #333;
