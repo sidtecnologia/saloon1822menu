@@ -19,27 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let cart = [];
 
     // --- Generación de Tarjetas y Carrusel ---
+    // Función para generar la tarjeta circular para el carrusel
     const generateCarouselCard = (product) => {
         return `
             <div class="carousel-item">
                 <img src="${product.image}" alt="${product.name}" class="carousel-image modal-trigger" 
-                     data-src="${product.image}" data-name="${product.name}" data-description="${product.description}" data-price="${product.price}">
+                     data-id="${product.id}" data-src="${product.image}" data-name="${product.name}" data-description="${product.description}" data-price="${product.price}">
             </div>
         `;
     };
 
+    // Función para generar la tarjeta rectangular del menú completo
     const generateProductCard = (product) => {
-        const whatsappNumber = '573186789977';
-        const message = encodeURIComponent(`Hola, me gustaría ordenar: ${product.name}`);
-        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
-        
         const starIcon = product.recommended ? '<span class="special-star">⭐</span>' : '';
 
         return `
             <div class="product-card" data-product-id="${product.id}">
                 ${starIcon}
                 <img src="${product.image}" alt="${product.name}" class="product-image modal-trigger" 
-                     data-src="${product.image}" data-name="${product.name}" data-description="${product.description}" data-price="${product.price}">
+                     data-id="${product.id}" data-src="${product.image}" data-name="${product.name}" data-description="${product.description}" data-price="${product.price}">
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
@@ -82,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         categoriesContainer.appendChild(categorySection);
     });
 
+    // --- Lógica de Carrusel con Arrastre ---
     let isDragging = false;
     let startPos = 0;
     let scrollLeft = 0;
@@ -107,10 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isDragging) return;
         e.preventDefault();
         const x = e.pageX - recommendedCarousel.offsetLeft;
-        const walk = (x - startPos) * 1.5; 
+        const walk = (x - startPos) * 1.5;
         recommendedCarousel.scrollLeft = scrollLeft - walk;
     });
-
 
     // --- Lógica del Modal de Imagen ---
     const modalTriggers = document.querySelectorAll('.modal-trigger');
@@ -122,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h4>${this.dataset.name}</h4>
                 <p>${this.dataset.description}</p>
                 <p><strong>Precio: $${parseFloat(this.dataset.price).toFixed(3)}</strong></p>
+                <button class="add-to-cart-btn" data-id="${this.dataset.id}">Añadir al Carrito</button>
             `;
         });
     });
@@ -154,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Lógica del Carrito (sin cambios, pero se incluye para completar) ---
+    // --- Lógica del Carrito ---
     const updateCart = () => {
         cartItemsContainer.innerHTML = '';
         let total = 0;
@@ -245,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const whatsappNumber = '573186789977';
+        const whatsappNumber = '573123456789';
         let message = "¡Hola! Quisiera hacer el siguiente pedido:\n\n";
         let total = 0;
 
@@ -257,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
         message += `\nTotal: $${total.toFixed(3)}`;
         
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappLink,);
+        window.open(whatsappLink, '_blank');
     });
     
     updateCart();
