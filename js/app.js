@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
-                    <p class="product-price">$${product.price.toFixed()}</p>
+                    <p class="product-price">$${product.price.toFixed(3)}</p>
                     <div class="product-actions">
                         <button class="add-to-cart-btn" data-id="${product.id}">Añadir al Carrito</button>
                     </div>
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             imageModalCaption.innerHTML = `
                 <h4>${this.dataset.name}</h4>
                 <p>${this.dataset.description}</p>
-                <p><strong>Precio: $${parseFloat(this.dataset.price).toFixed()}</strong></p>
+                <p><strong>Precio: $${parseFloat(this.dataset.price).toFixed(3)}</strong></p>
             `;
         });
     });
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cartItemElement.classList.add('cart-item');
                 cartItemElement.innerHTML = `
                     <span>${item.name} (${item.quantity})</span>
-                    <span class="cart-item-price">$${(item.price * item.quantity).toFixed()}</span>
+                    <span class="cart-item-price">$${(item.price * item.quantity).toFixed(3)}</span>
                     <div class="cart-item-controls">
                         <button class="decrease-qty" data-id="${item.id}">-</button>
                         <button class="increase-qty" data-id="${item.id}">+</button>
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalItems += item.quantity;
             });
         }
-        cartTotalElement.textContent = total.toFixed();
+        cartTotalElement.textContent = total.toFixed(3);
         cartBadge.textContent = totalItems;
         if (totalItems > 0) {
             cartBadge.style.display = 'flex';
@@ -246,19 +246,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const whatsappNumber = '573123456789';
+        const whatsappNumber = '573186789977';
         let message = "¡Hola! Quisiera hacer el siguiente pedido:\n\n";
         let total = 0;
 
         cart.forEach(item => {
-            message += `* ${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed()}\n`;
+            message += `* ${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(3)}\n`;
             total += item.price * item.quantity;
         });
 
-        message += `\nTotal: $${total.toFixed()}`;
+        message += `\nTotal: $${total.toFixed(3)}`;
         
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappLink, '_blank');
+        window.open(whatsappLink,);
     });
     
     updateCart();
