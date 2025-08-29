@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
-                    <p class="product-price">$${product.price.toFixed(2)}</p>
+                    <p class="product-price">$${product.price.toFixed()}</p>
                     <div class="product-actions">
                         <button class="add-to-cart-btn" data-id="${product.id}">Añadir al Carrito</button>
                     </div>
