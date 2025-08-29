@@ -1,28 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const recommendedContainer = document.getElementById('recommended-cards');
+    const recommendedCarousel = document.getElementById('recommended-carousel');
     const categoriesContainer = document.getElementById('all-categories');
-    
-    // Referencias al modal y al carrito
-    const modal = document.getElementById('imageModal');
+
+    // Referencias a modales y carrito
+    const imageModal = document.getElementById('imageModal');
     const fullImage = document.getElementById('fullImage');
+    const imageModalCaption = document.getElementById('image-modal-caption');
     const closeBtn = document.getElementsByClassName('close-button')[0];
     const cartBtn = document.getElementById('cart-btn');
-    const cartBadge = document.getElementById('cart-badge'); // Nuevo elemento
+    const cartBadge = document.getElementById('cart-badge');
     const cartModal = document.getElementById('cartModal');
     const cartItemsContainer = document.getElementById('cart-items');
     const cartTotalElement = document.getElementById('cart-total');
     const checkoutBtn = document.getElementById('checkout-btn');
     const closeCartBtn = document.getElementsByClassName('close-cart-btn')[0];
 
-    // --- Array para el carrito ---
     let cart = [];
 
-    // --- Función para generar una tarjeta de producto con botones de cantidad ---
+    // --- Generación de Tarjetas y Carrusel ---
+    const generateCarouselCard = (product) => {
+        return `
+            <div class="carousel-item">
+                <img src="${product.image}" alt="${product.name}" class="carousel-image modal-trigger" 
+                     data-src="${product.image}" data-name="${product.name}" data-description="${product.description}" data-price="${product.price}">
+            </div>
+        `;
+    };
+
     const generateProductCard = (product) => {
+        const whatsappNumber = '573123456789';
+        const message = encodeURIComponent(`Hola, me gustaría ordenar: ${product.name}`);
+        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
+        
+        const starIcon = product.recommended ? '<span class="special-star">⭐</span>' : '';
+
         return `
             <div class="product-card" data-product-id="${product.id}">
-                <img src="${product.image}" alt="${product.name}" class="product-image modal-trigger" data-src="${product.image}">
+                ${starIcon}
+                <img src="${product.image}" alt="${product.name}" class="product-image modal-trigger" 
+                     data-src="${product.image}" data-name="${product.name}" data-description="${product.description}" data-price="${product.price}">
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
@@ -35,12 +52,114 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    // --- Funciones para manejar el carrito ---
+    // --- Lógica de Renderizado ---
+    const recommendedProducts = menuData.filter(p => p.recommended);
+    recommendedProducts.forEach(p => {
+        recommendedCarousel.innerHTML += generateCarouselCard(p);
+    });
 
+    const categories = [...new Set(menuData.map(p => p.category))];
+    categories.forEach(category => {
+        const categorySection = document.createElement('section');
+        categorySection.className = 'menu-category-section';
+
+        const categoryTitleBtn = document.createElement('h3');
+        categoryTitleBtn.className = 'category-title collapsible-btn';
+        categoryTitleBtn.innerHTML = `
+            ${category.charAt(0).toUpperCase() + category.slice(1)} <span class="arrow-icon">▼</span>
+        `;
+        
+        const productsGrid = document.createElement('div');
+        productsGrid.className = 'product-grid collapsible-content';
+        
+        const productsInCategory = menuData.filter(p => p.category === category);
+        productsInCategory.forEach(p => {
+            productsGrid.innerHTML += generateProductCard(p);
+        });
+        
+        categorySection.appendChild(categoryTitleBtn);
+        categorySection.appendChild(productsGrid);
+        categoriesContainer.appendChild(categorySection);
+    });
+
+    // --- NUEVA Lógica de Carrusel con Arrastre ---
+    let isDragging = false;
+    let startPos = 0;
+    let scrollLeft = 0;
+
+    recommendedCarousel.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        recommendedCarousel.classList.add('grabbing');
+        startPos = e.pageX - recommendedCarousel.offsetLeft;
+        scrollLeft = recommendedCarousel.scrollLeft;
+    });
+
+    recommendedCarousel.addEventListener('mouseleave', () => {
+        isDragging = false;
+        recommendedCarousel.classList.remove('grabbing');
+    });
+
+    recommendedCarousel.addEventListener('mouseup', () => {
+        isDragging = false;
+        recommendedCarousel.classList.remove('grabbing');
+    });
+
+    recommendedCarousel.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - recommendedCarousel.offsetLeft;
+        const walk = (x - startPos) * 1.5; // Ajusta el multiplicador para cambiar la velocidad de arrastre
+        recommendedCarousel.scrollLeft = scrollLeft - walk;
+    });
+
+
+    // --- Lógica del Modal de Imagen ---
+    const modalTriggers = document.querySelectorAll('.modal-trigger');
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            imageModal.style.display = "block";
+            fullImage.src = this.dataset.src;
+            imageModalCaption.innerHTML = `
+                <h4>${this.dataset.name}</h4>
+                <p>${this.dataset.description}</p>
+                <p><strong>Precio: $${parseFloat(this.dataset.price).toFixed()}</strong></p>
+            `;
+        });
+    });
+
+    closeBtn.addEventListener('click', function() {
+        imageModal.style.display = "none";
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == imageModal) {
+            imageModal.style.display = "none";
+        }
+    });
+
+    // --- Lógica de Categorías Expandibles ---
+    const collapsibleButtons = document.querySelectorAll('.collapsible-btn');
+    collapsibleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            const arrow = this.querySelector('.arrow-icon');
+            
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                arrow.style.transform = 'rotate(-90deg)';
+            }
+        });
+    });
+
+    // --- Lógica del Carrito (sin cambios, pero se incluye para completar) ---
     const updateCart = () => {
         cartItemsContainer.innerHTML = '';
         let total = 0;
-        let totalItems = 0; // Contador de ítems
+        let totalItems = 0;
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
         } else {
@@ -49,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cartItemElement.classList.add('cart-item');
                 cartItemElement.innerHTML = `
                     <span>${item.name} (${item.quantity})</span>
-                    <span class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</span>
+                    <span class="cart-item-price">$${(item.price * item.quantity).toFixed()}</span>
                     <div class="cart-item-controls">
                         <button class="decrease-qty" data-id="${item.id}">-</button>
                         <button class="increase-qty" data-id="${item.id}">+</button>
@@ -57,15 +176,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 cartItemsContainer.appendChild(cartItemElement);
                 total += item.price * item.quantity;
-                totalItems += item.quantity; // Sumamos la cantidad de cada producto
+                totalItems += item.quantity;
             });
         }
-        cartTotalElement.textContent = total.toFixed(2);
-        cartBadge.textContent = totalItems; // Actualizamos el globo con el total de ítems
+        cartTotalElement.textContent = total.toFixed();
+        cartBadge.textContent = totalItems;
         if (totalItems > 0) {
-            cartBadge.style.display = 'flex'; // Muestra el globo si hay ítems
+            cartBadge.style.display = 'flex';
         } else {
-            cartBadge.style.display = 'none'; // Oculta el globo si está vacío
+            cartBadge.style.display = 'none';
         }
     };
 
@@ -82,38 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    // --- Generación del menú (sin cambios) ---
-    const recommendedProducts = menuData.filter(product => product.recommended);
-    recommendedProducts.forEach(product => {
-        recommendedContainer.innerHTML += generateProductCard(product);
-    });
-
-    const categories = [...new Set(menuData.map(product => product.category))];
-    
-    categories.forEach(category => {
-        const categorySection = document.createElement('section');
-        categorySection.className = 'menu-category-section';
-
-        const categoryTitleBtn = document.createElement('h3');
-        categoryTitleBtn.className = 'category-title collapsible-btn';
-        categoryTitleBtn.innerHTML = `
-            ${category.charAt(0).toUpperCase() + category.slice(1)} <span class="arrow-icon">▼</span>
-        `;
-        
-        const productsGrid = document.createElement('div');
-        productsGrid.className = 'product-grid collapsible-content';
-        
-        const productsInCategory = menuData.filter(product => product.category === category);
-        productsInCategory.forEach(product => {
-            productsGrid.innerHTML += generateProductCard(product);
-        });
-        
-        categorySection.appendChild(categoryTitleBtn);
-        categorySection.appendChild(productsGrid);
-        categoriesContainer.appendChild(categorySection);
-    });
-
-    // --- Event Listeners ---
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('add-to-cart-btn')) {
             addToCart(e.target.dataset.id);
@@ -138,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Abrir y cerrar el modal del carrito
     cartBtn.addEventListener('click', () => {
         cartModal.style.display = "block";
         updateCart();
@@ -165,51 +251,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let total = 0;
 
         cart.forEach(item => {
-            message += `* ${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed(2)}\n`;
+            message += `* ${item.name} x${item.quantity} - $${(item.price * item.quantity).toFixed()}\n`;
             total += item.price * item.quantity;
         });
 
-        message += `\nTotal: $${total.toFixed(2)}`;
+        message += `\nTotal: $${total.toFixed()}`;
         
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
         window.open(whatsappLink, '_blank');
     });
-
-    // Funcionalidad de modal de imagen y categorías expandibles (sin cambios)
-    const images = document.querySelectorAll('.modal-trigger');
-    images.forEach(image => {
-        image.addEventListener('click', function() {
-            modal.style.display = "block";
-            fullImage.src = this.dataset.src;
-        });
-    });
-
-    closeBtn.addEventListener('click', function() {
-        modal.style.display = "none";
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    });
-
-    const collapsibleButtons = document.querySelectorAll('.collapsible-btn');
-    collapsibleButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            this.classList.toggle('active');
-            const content = this.nextElementSibling;
-            const arrow = this.querySelector('.arrow-icon');
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-                arrow.style.transform = 'rotate(0deg)';
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-                arrow.style.transform = 'rotate(-90deg)';
-            }
-        });
-    });
-
-    // Llama a updateCart al inicio para inicializar el badge
+    
     updateCart();
 });

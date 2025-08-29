@@ -13,7 +13,7 @@ const menuData = [
         name: 'Forajida',
         description: 'Pan brioche, carne de hamburguesa, tiras de carne oreada receta de la mamá Marina, pollo desmechado en tártara SALOON, chorizo parillero, arepita blanca, queso cheddar, queso mozzarela, vegetales frescos y salsas artesanales de la casa.',
         price: 28900,
-        image: 'img/hamburguesas/chori-burger.jpg',
+        image: 'img/hamburguesas/forajida.jpg',
         category: 'hamburguesas',
         recommended: true
     },
@@ -58,7 +58,7 @@ const menuData = [
         name: 'Pollo Salvaje',
         description: 'Pan brioche, carne de hamburguesa, pollo desmechado en tártara SALOON, champiñones, doble tocineta ahumada, arepita blanca, queso, vegetales frescos y salsas artesanales de la casa.',
         price: 24900,
-        image: 'img/hamburguesas/pollo-salcaje.jpg',
+        image: 'img/hamburguesas/pollo-salvaje.jpg',
         category: 'hamburguesas',
         recommended: false
     },
@@ -157,7 +157,7 @@ const menuData = [
         name: 'Caipiroska',
         description: 'Licor, pulpa de tu elección, hierbabuena, zumo de limón, gaseosa cuatro, hielo',
         price: 16000,
-        image: 'img/bebidas/mojito.jpg',
+        image: 'img/bebidas/caipiroska.jpg',
         category: 'bebidas',
         recommended: true
     },

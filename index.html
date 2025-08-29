@@ -18,10 +18,14 @@
         <main class="menu-container">
             
             <section id="recommended-products" class="menu-section">
-                <h2 class="section-title">⭐ Especiales del Día</h2>
-                <div id="recommended-cards" class="product-grid">
-                    </div>
-            </section>
+    <h2 class="section-title">⭐ Especiales del Día</h2>
+    <div class="carousel-container">
+        <div id="recommended-carousel" class="carousel">
+            </div>
+    </div>
+</section>
+
+
 
             <section id="all-categories" class="menu-section">
                 <h2 class="section-title">🍽️ Nuestro Menú</h2>
@@ -51,8 +55,12 @@
     </div>
 
     <div id="imageModal" class="modal">
-        <span class="close-button">&times;</span>
+    <span class="close-button">&times;</span>
+    <div class="modal-content-wrapper">
         <img class="modal-content" id="fullImage">
+        <div id="image-modal-caption">
+            </div>
+        </div>
     </div>
 
     <script src="js/data.js"></script>
