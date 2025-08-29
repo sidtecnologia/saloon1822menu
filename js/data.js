@@ -76,7 +76,7 @@ const menuData = [
         name: 'Hot Bronco',
         description: 'Pan brioche, carne de hamburguesa, sobrebarriga desmechada, jalapeños, guacamole, chorizo parrillero, queso, vegetales frescos y salsas artesanales de la casa.',
         price: 23900,
-        image: 'img/perros/hot-bronco.jpg',
+        image: 'img/hamburguesas/hot-bronco.jpg',
         category: 'hamburguesas',
         recommended: true
     },
@@ -85,7 +85,7 @@ const menuData = [
         name: 'Jesse James',
         description: 'Pan brioche, carne de hamburguesa, arepa Santandereana, deliciosa combinación de chorizo parrillero y champiñón salteado a la plancha fundidos en queso, vegetales frescos y salsas artesanales de la casa.',
         price: 22900,
-        image: 'img/perros/jesse-james.jpg',
+        image: 'img/hamburguesas/jesse-james.jpg',
         category: 'hamburguesas',
         recommended: false
     },
@@ -94,7 +94,7 @@ const menuData = [
         name: 'Bby Sheriff',
         description: 'Pan brioche, carne de hamburguesa, lomo de cerdo a la parrilla, corte de piña asada y gratinada, tocineta ahumada, queso, queso cheddar, vegetales frescos y salsas artesanales de la casa.',
         price: 23900,
-        image: 'img/perros/bby-sheriff.jpg',
+        image: 'img/hamburguesas/bby-sheriff.jpg',
         category: 'hamburguesas',
         recommended: false
     },
@@ -103,7 +103,7 @@ const menuData = [
         name: 'Vaquera',
         description: 'Pan brioche, carne de hamburguesa( o pollo desmechado), tocineta ahumada, queso, vegetales frescos y salsas artesanales de la casa - Opción Doble: $24900',
         price: 17900,
-        image: 'img/perros/vaquera.jpg',
+        image: 'img/hamburguesas/vaquera.jpg',
         category: 'hamburguesas',
         recommended: false
     },
