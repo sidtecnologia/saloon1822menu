@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const whatsappNumber = '573123456789';
+        const whatsappNumber = '573186789977';
         let message = "¡Hola! Quisiera hacer el siguiente pedido:\n\n";
         let total = 0;
 
