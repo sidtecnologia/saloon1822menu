@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const generateProductCard = (product) => {
-        const whatsappNumber = '573123456789';
+        const whatsappNumber = '573186789977';
         const message = encodeURIComponent(`Hola, me gustaría ordenar: ${product.name}`);
         const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
         
@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
         categoriesContainer.appendChild(categorySection);
     });
 
-    // --- NUEVA Lógica de Carrusel con Arrastre ---
     let isDragging = false;
     let startPos = 0;
     let scrollLeft = 0;
@@ -108,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isDragging) return;
         e.preventDefault();
         const x = e.pageX - recommendedCarousel.offsetLeft;
-        const walk = (x - startPos) * 1.5; // Ajusta el multiplicador para cambiar la velocidad de arrastre
+        const walk = (x - startPos) * 1.5; 
         recommendedCarousel.scrollLeft = scrollLeft - walk;
     });
 
